@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../consts/app_typography.dart';
+import '../models/news_related.dart';
 
 class ArticleCard extends StatelessWidget {
   const ArticleCard({Key? key, required this.article}) : super(key: key);
-  final Map<String, dynamic> article;
+  final NewsStoryModel article;
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -19,9 +20,12 @@ class ArticleCard extends StatelessWidget {
                     width: size.maxWidth * 0.3,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(25),
-                      child: Image.asset(
-                        article['imageUrl'],
-                        fit: BoxFit.fill,
+                      child: Hero(
+                        tag: article.imageUrl,
+                        child: Image.asset(
+                          article.imageUrl,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                   ),
@@ -32,39 +36,49 @@ class ArticleCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Text(
-                            article['category'],
+                            article.category,
                             style:
                                 AppTypography.smallSize(context, Colors.grey),
                           ),
                           Expanded(
-                            child: Center(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: AlignmentDirectional.centerStart,
                               child: Text(
-                                article['title'],
+                                article.title,
+                                textAlign: TextAlign.start,
                                 style: AppTypography.semiBodySize(context),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ),
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                foregroundImage: AssetImage(
-                                  article['writerPic'],
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  '${article['source']} • ${article['time']}',
-                                  style: AppTypography.smallSize(
-                                    context,
-                                    Colors.grey,
+                          Expanded(
+                            child: Row(
+                              children: [
+                                FittedBox(
+                                  child: CircleAvatar(
+                                    foregroundImage: AssetImage(
+                                      article.sourceImage,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    alignment: AlignmentDirectional.centerStart,
+                                    child: Text(
+                                      '${article.source} • ${article.time}',
+                                      style: AppTypography.smallSize(
+                                        context,
+                                        Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

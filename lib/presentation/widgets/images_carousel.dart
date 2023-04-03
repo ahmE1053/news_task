@@ -26,7 +26,9 @@ class NewsCarousel extends HookWidget {
             return ClipRRect(
               borderRadius: BorderRadius.circular(25),
               child: ImageCarouselWidget(
-                  newsStory: newsStory, colorScheme: colorScheme),
+                newsStory: newsStory,
+                colorScheme: colorScheme,
+              ),
             );
           },
           options: CarouselOptions(
