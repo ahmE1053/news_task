@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../consts/app_typography.dart';
-import '../data_source/news_mock.dart';
-import '../widgets/article_card.dart';
-import '../widgets/bottom_nar_bar.dart';
-import '../widgets/images_carousel.dart';
+import '../widgets/bottom_nav_bar.dart';
+import 'bookmarks_screen.dart';
+import 'news_screen.dart';
 
 class HomeScreen extends HookWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,81 +13,22 @@ class HomeScreen extends HookWidget {
     final currentIndex = useState(0);
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Badge(
-              alignment: AlignmentDirectional.topEnd,
-              backgroundColor: Colors.red,
-              child: Icon(Icons.notifications),
-            ),
-          )
-        ],
-      ),
       drawer: const Drawer(),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FittedBox(
-                  child: Text(
-                    'Breaking News',
-                    style: AppTypography.semiHeadlineSize(context),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('View all'),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          const NewsCarousel(),
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    FittedBox(
-                      child: Text(
-                        'Breaking News',
-                        style: AppTypography.semiHeadlineSize(context),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text('View all'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                ...recommended.map(
-                  (e) => SizedBox(
-                    height: size.height * 0.15,
-                    child: ArticleCard(
-                      article: e,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+      body: mainScreens(context, currentIndex.value, size),
       bottomNavigationBar: MyBottomNavBar(currentIndex: currentIndex),
     );
   }
+}
+
+Widget mainScreens(BuildContext context, int index, Size size) {
+  if (index != 2) {
+    index = 0;
+  } else {
+    index = 1;
+  }
+  var screens = [
+    const NewsScreen(),
+    const BookmarksScreen(),
+  ];
+  return screens[index];
 }

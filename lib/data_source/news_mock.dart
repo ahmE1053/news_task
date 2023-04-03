@@ -1,5 +1,8 @@
-final List<Map<String, dynamic>> news = [
+import 'package:task1/models/news_related.dart';
+
+final List<NewsStoryModel> news = [
   {
+    'sourceImage': 'assets/cnn.png',
     'source': 'CNN Indonesia',
     'time': '6 hours ago',
     'verifiedSource': true,
@@ -8,6 +11,7 @@ final List<Map<String, dynamic>> news = [
     'category': 'Sports',
   },
   {
+    'sourceImage': 'assets/cnn.png',
     'source': 'BBC News',
     'time': '3 hours ago',
     'verifiedSource': true,
@@ -16,6 +20,7 @@ final List<Map<String, dynamic>> news = [
     'category': 'Science',
   },
   {
+    'sourceImage': 'assets/cnn.png',
     'source': 'The Guardian',
     'time': '1 hour ago',
     'verifiedSource': true,
@@ -24,6 +29,7 @@ final List<Map<String, dynamic>> news = [
     'category': 'Health',
   },
   {
+    'sourceImage': 'assets/cnn.png',
     'source': 'ESPN',
     'time': '2 hours ago',
     'verifiedSource': true,
@@ -32,6 +38,7 @@ final List<Map<String, dynamic>> news = [
     'category': 'Sports',
   },
   {
+    'sourceImage': 'assets/cnn.png',
     'source': 'TechCrunch',
     'time': '5 hours ago',
     'verifiedSource': true,
@@ -40,6 +47,7 @@ final List<Map<String, dynamic>> news = [
     'category': 'Tech',
   },
   {
+    'sourceImage': 'assets/cnn.png',
     'source': 'BBC Sport',
     'time': '3 hours ago',
     'verifiedSource': true,
@@ -47,53 +55,53 @@ final List<Map<String, dynamic>> news = [
     'imageUrl': 'assets/3.jpg',
     'category': 'Sports',
   },
-];
+].map((e) => NewsStoryModel.fromJson(e)).toList();
 
-final List<Map<String, dynamic>> recommended = [
+final List<NewsStoryModel> recommended = [
   {
-    'writerPic': 'assets/man1.jpeg',
+    'sourceImage': 'assets/man1.jpeg',
     'source': 'John Smith',
     'time': 'March 25, 2023',
     'verifiedSource': true,
-    'title': 'The Importance of Plyometric Training for Volleyball Players',
+    'title': 'The Importance of Plyometric\nTraining for Volleyball Players',
     'imageUrl': 'assets/7.jpg',
     'category': 'Sports',
   },
   {
-    'writerPic': 'assets/man2.jpg',
+    'sourceImage': 'assets/man2.jpg',
     'source': 'Jane Williams',
     'time': 'March 24, 2023',
     'verifiedSource': true,
-    'title': 'How a Plant-Based Diet Can Benefit Athletes',
+    'title': 'How a Plant-Based Diet\nCan Benefit Athletes',
     'imageUrl': 'assets/8.jpg',
     'category': 'Health',
   },
   {
-    'writerPic': 'assets/man3.jpg',
+    'sourceImage': 'assets/man3.jpg',
     'source': 'Mark Davis',
     'time': 'March 23, 2023',
     'verifiedSource': true,
-    'title': 'How to Invest Your Money for Long-Term Financial Stability',
+    'title': 'How to Invest Your Money for\nLong-Term Financial Stability',
     'imageUrl': 'assets/9.jpg',
     'category': 'Finances',
   },
   {
-    'writerPic': 'assets/man1.jpeg',
+    'sourceImage': 'assets/man1.jpeg',
     'source': 'Emily Chen',
     'time': 'March 22, 2023',
     'verifiedSource': true,
-    'title': '5 Strategies for Successfully Navigating a Career Change',
+    'title': '5 Strategies for Successfully\nNavigating a Career Change',
     'imageUrl': 'assets/10.jpg',
     'category': 'Work',
   },
   {
-    'writerPic': 'assets/man2.jpg',
+    'sourceImage': 'assets/man2.jpg',
     'source': 'David Rodriguez',
     'time': 'March 21, 2023',
     'verifiedSource': true,
     'title':
-        'How to Protect Yourself from Cyber Threats in the Age of Remote Work',
+        'How to Protect Yourself from Cyber\nThreats in the Age of Remote Work',
     'imageUrl': 'assets/11.jpg',
     'category': 'Tech',
   },
-];
+].map((e) => NewsStoryModel.fromJson(e)).toList();

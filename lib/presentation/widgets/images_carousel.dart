@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../data_source/news_mock.dart';
+import '../../data_source/news_mock.dart';
 import 'image_carousel_widget.dart';
 
 class NewsCarousel extends HookWidget {

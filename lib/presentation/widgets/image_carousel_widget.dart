@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:task1/screens/details_screen.dart';
+import 'package:task1/presentation/screens/details_screen.dart';
 
-import '../consts/app_typography.dart';
-import '../models/news_related.dart';
+import '../../consts/app_typography.dart';
+import '../../models/news_related.dart';
 
 class ImageCarouselWidget extends StatelessWidget {
   const ImageCarouselWidget({
