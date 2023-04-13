@@ -6,7 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../consts/app_typography.dart';
 import '../../consts/ipsum.dart';
-import '../../models/news_related.dart';
+import '../../models/news_model.dart';
 import '../widgets/details_screen/details_screen_image_stack.dart';
 
 class StoryDetailsScreen extends HookConsumerWidget {
@@ -41,6 +41,7 @@ class StoryDetailsScreen extends HookConsumerWidget {
             colorOpacity.value = scrollingPercentage.getRangeFromAnotherRange(
                 0.5, 1.0, 0.0, 1.0);
           }
+
           if (scrollController.offset == 0 && colorOpacity.value > 0.0) {
             colorOpacity.value = 0.0;
           }
@@ -74,7 +75,7 @@ class StoryDetailsScreen extends HookConsumerWidget {
             ),
           ),
           Positioned.fill(
-            top: topStackHeight.value * 0.8,
+            top: topStackHeight.value * 0.82,
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(

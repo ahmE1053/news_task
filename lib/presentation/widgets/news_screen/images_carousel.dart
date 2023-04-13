@@ -1,28 +1,29 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../../data_source/news_mock.dart';
 import 'image_carousel_widget.dart';
 
-class NewsCarousel extends HookWidget {
-  const NewsCarousel({Key? key}) : super(key: key);
+import '../../../models/news_model.dart';
 
+class NewsCarousel extends HookConsumerWidget {
+  const NewsCarousel({Key? key, required this.newsStories}) : super(key: key);
+  final List<NewsStoryModel> newsStories;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = useState(0);
     final carouselController = useMemoized(() => CarouselController());
-
     final size = MediaQuery.of(context).size;
     final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       children: [
         CarouselSlider.builder(
           carouselController: carouselController,
-          itemCount: news.length,
+          itemCount: newsStories.length,
           itemBuilder: (context, index, realIndex) {
-            final newsStory = news[index];
+            final newsStory = newsStories[index];
             return ClipRRect(
               borderRadius: BorderRadius.circular(25),
               child: ImageCarouselWidget(
@@ -46,7 +47,7 @@ class NewsCarousel extends HookWidget {
         const SizedBox(height: 8),
         AnimatedSmoothIndicator(
           activeIndex: currentIndex.value,
-          count: news.length,
+          count: newsStories.length,
           effect: const ExpandingDotsEffect(),
           onDotClicked: (index) {
             currentIndex.value = index;

@@ -13,7 +13,6 @@ class HomeScreen extends HookWidget {
     final currentIndex = useState(0);
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      drawer: const Drawer(),
       body: mainScreens(context, currentIndex.value, size),
       bottomNavigationBar: MyBottomNavBar(currentIndex: currentIndex),
     );

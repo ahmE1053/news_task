@@ -1,21 +1,22 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../consts/app_typography.dart';
-import '../../models/news_related.dart';
-import '../screens/details_screen.dart';
+import '../../../consts/app_typography.dart';
+import '../../../models/news_model.dart';
+import '../../screens/details_screen.dart';
 
-class ArticleCard extends StatelessWidget {
-  const ArticleCard({
+class RecommendedCard extends StatelessWidget {
+  const RecommendedCard({
     Key? key,
-    required this.article,
+    required this.story,
     this.bookmarkMode = false,
-    this.onTap,
+    this.onBookmarkTap,
     this.bookmarked = true,
   }) : super(key: key);
-  final NewsStoryModel article;
+  final NewsStoryModel story;
   final bool bookmarkMode, bookmarked;
 
-  final void Function()? onTap;
+  final void Function()? onBookmarkTap;
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -26,7 +27,7 @@ class ArticleCard extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => StoryDetailsScreen(newsStory: article),
+                builder: (context) => StoryDetailsScreen(newsStory: story),
               ),
             );
           },
@@ -42,12 +43,19 @@ class ArticleCard extends StatelessWidget {
                           width: size.maxWidth * 0.3,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(25),
-                            child: Hero(
-                              tag: article.imageUrl,
-                              child: Image.asset(
-                                article.imageUrl,
+                            child: CachedNetworkImage(
+                              imageUrl: story.imageUrl,
+                              errorWidget: (context, url, error) => Image.asset(
+                                'assets/not_found.png',
                                 fit: BoxFit.fill,
                               ),
+                              progressIndicatorBuilder:
+                                  (context, url, progress) => Center(
+                                child: CircularProgressIndicator(
+                                  value: progress.progress,
+                                ),
+                              ),
+                              fit: BoxFit.fill,
                             ),
                           ),
                         ),
@@ -58,7 +66,7 @@ class ArticleCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 Text(
-                                  article.category,
+                                  story.category,
                                   style: AppTypography.smallSize(
                                       context, Colors.grey),
                                 ),
@@ -66,7 +74,7 @@ class ArticleCard extends StatelessWidget {
                                   child: Align(
                                     alignment: AlignmentDirectional.centerStart,
                                     child: Text(
-                                      article.title,
+                                      story.title,
                                       textAlign: TextAlign.start,
                                       style:
                                           AppTypography.semiBodySize(context),
@@ -81,7 +89,7 @@ class ArticleCard extends StatelessWidget {
                                       FittedBox(
                                         child: CircleAvatar(
                                           foregroundImage: AssetImage(
-                                            article.sourceImage,
+                                            story.sourceImage,
                                           ),
                                         ),
                                       ),
@@ -92,7 +100,7 @@ class ArticleCard extends StatelessWidget {
                                           alignment:
                                               AlignmentDirectional.centerStart,
                                           child: Text(
-                                            '${article.source} • ${article.time}',
+                                            '${story.source} • ${story.time}',
                                             style: AppTypography.smallSize(
                                               context,
                                               Colors.grey,
@@ -118,7 +126,7 @@ class ArticleCard extends StatelessWidget {
                   top: 0,
                   right: 0,
                   child: IconButton(
-                    onPressed: onTap,
+                    onPressed: onBookmarkTap,
                     icon: Icon(
                       bookmarked
                           ? Icons.bookmark

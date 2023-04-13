@@ -1,8 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:task1/presentation/screens/details_screen.dart';
 
-import '../../consts/app_typography.dart';
-import '../../models/news_related.dart';
+import '../../../consts/app_typography.dart';
+import '../../../models/news_model.dart';
 
 class ImageCarouselWidget extends StatelessWidget {
   const ImageCarouselWidget({
@@ -28,12 +29,18 @@ class ImageCarouselWidget extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Hero(
-            tag: newsStory.imageUrl,
-            child: Image.asset(
-              newsStory.imageUrl,
+          CachedNetworkImage(
+            imageUrl: newsStory.imageUrl,
+            progressIndicatorBuilder: (context, url, progress) => Center(
+              child: CircularProgressIndicator(
+                value: progress.progress,
+              ),
+            ),
+            errorWidget: (context, url, error) => Image.asset(
+              'assets/not_found.png',
               fit: BoxFit.fill,
             ),
+            fit: BoxFit.fill,
           ),
           Container(
             decoration: const BoxDecoration(
@@ -43,7 +50,7 @@ class ImageCarouselWidget extends StatelessWidget {
                   Colors.transparent,
                 ],
                 begin: Alignment.bottomCenter,
-                end: Alignment.center,
+                end: Alignment(0, -0.7),
               ),
             ),
           ),
@@ -72,11 +79,14 @@ class ImageCarouselWidget extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          newsStory.source,
-                          style: AppTypography.semiBodySize(
-                            context,
-                            Colors.white,
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            newsStory.source,
+                            style: AppTypography.semiBodySize(
+                              context,
+                              Colors.white,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -93,11 +103,17 @@ class ImageCarouselWidget extends StatelessWidget {
                             ),
                           ),
                         const SizedBox(width: 8),
-                        Text(
-                          newsStory.time,
-                          style: AppTypography.semiBodySize(
-                            context,
-                            Colors.white,
+                        Expanded(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: AlignmentDirectional.centerStart,
+                            child: Text(
+                              newsStory.time,
+                              style: AppTypography.semiBodySize(
+                                context,
+                                Colors.white,
+                              ),
+                            ),
                           ),
                         )
                       ],

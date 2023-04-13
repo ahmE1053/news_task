@@ -7,9 +7,10 @@ class DetailsAppBar extends StatelessWidget {
     super.key,
     required this.onTap,
     required this.bookmarked,
+    this.favoriteLoading = false,
   });
   final void Function() onTap;
-  final bool bookmarked;
+  final bool bookmarked, favoriteLoading;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -25,6 +26,7 @@ class DetailsAppBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               BlurredIconButton(
+                favoriteLoading: favoriteLoading,
                 onTap: onTap,
                 icon: bookmarked
                     ? Icons.bookmark

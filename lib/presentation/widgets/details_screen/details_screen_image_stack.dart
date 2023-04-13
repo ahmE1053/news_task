@@ -1,13 +1,15 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../consts/app_typography.dart';
 import '../../../core/providers/user_provider.dart';
-import '../../../models/news_related.dart';
+import '../../../models/news_model.dart';
 import 'details_appbar.dart';
 
-class DetailsImageStack extends HookConsumerWidget {
+class DetailsImageStack extends HookWidget {
   const DetailsImageStack(
       {Key? key,
       required this.newsStory,
@@ -19,24 +21,29 @@ class DetailsImageStack extends HookConsumerWidget {
   final double opacity;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final bookmarks = ref.watch(userNotifierProvider).bookmarks;
+  Widget build(BuildContext context) {
     final controller =
         useAnimationController(duration: const Duration(milliseconds: 200));
     final colorAnimation =
         ColorTween(begin: Colors.white, end: Colors.black).animate(controller);
     final mq = MediaQuery.of(context).size;
-
+    final favoriteLoading = useState(false);
     return Stack(
       fit: StackFit.expand,
       children: [
         //background image
-        Hero(
-          tag: newsStory.imageUrl,
-          child: Image.asset(
-            newsStory.imageUrl,
+        CachedNetworkImage(
+          imageUrl: newsStory.imageUrl,
+          progressIndicatorBuilder: (context, url, progress) => Center(
+            child: CircularProgressIndicator(
+              value: progress.progress,
+            ),
+          ),
+          errorWidget: (context, url, error) => Image.asset(
+            'assets/not_found.png',
             fit: BoxFit.fill,
           ),
+          fit: BoxFit.fill,
         ),
 
         //black gradient in bottom to make text readable if background image is on the whiter side
@@ -70,12 +77,46 @@ class DetailsImageStack extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   //app bar
-                  DetailsAppBar(
-                    bookmarked: bookmarks.contains(newsStory),
-                    onTap: () {
-                      ref
-                          .read(userNotifierProvider.notifier)
-                          .handleFavorite(newsStory, true);
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final user = ref.watch(userNotifierProvider);
+                      return user.when(
+                        data: (userData) {
+                          final bookmarks = userData.bookmarks;
+                          return DetailsAppBar(
+                            favoriteLoading: favoriteLoading.value,
+                            bookmarked: bookmarks.contains(newsStory),
+                            onTap: () {
+                              ref
+                                  .read(userNotifierProvider.notifier)
+                                  .handleFavorite(
+                                    newsStory,
+                                    true,
+                                    favoriteLoading,
+                                  );
+                            },
+                          );
+                        },
+                        error: (error, stackTrace) => const Center(
+                          child: FittedBox(
+                            child:
+                                Text('An error occurred, please try reloading'),
+                          ),
+                        ),
+                        loading: () => DetailsAppBar(
+                          favoriteLoading: favoriteLoading.value,
+                          bookmarked: false,
+                          onTap: () {
+                            ref
+                                .read(userNotifierProvider.notifier)
+                                .handleFavorite(
+                                  newsStory,
+                                  true,
+                                  favoriteLoading,
+                                );
+                          },
+                        ),
+                      );
                     },
                   ),
                   //info about the article
@@ -94,7 +135,7 @@ class DetailsImageStack extends HookConsumerWidget {
                               horizontal: 16, vertical: 8),
                           child: Text(
                             newsStory.category,
-                            maxLines: 3,
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: AppTypography.semiBodySize(
                               context,
@@ -120,8 +161,9 @@ class DetailsImageStack extends HookConsumerWidget {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                AutoSizeText(
                                   newsStory.title,
+                                  maxLines: 2,
                                   style: AppTypography.semiHeadlineSize(
                                     context,
                                     colorAnimation.value,
