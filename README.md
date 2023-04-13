@@ -33,7 +33,7 @@ Here are some screenshots from the app:
 ![](https://i.imgur.com/UUUVcdb.jpeg)
 ![](https://i.imgur.com/dWad8Pp.jpeg)
 
-
+and here is a video for the app https://imgur.com/a/fmeHa5I
 
 Thank you for checking out the News app! If you have any questions or feedback, please feel free to contact me.
 
